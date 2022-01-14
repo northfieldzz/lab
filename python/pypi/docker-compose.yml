@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  pypiserver:
+    container_name: pypiserver
+    image: pypiserver/pypiserver:latest
+    volumes:
+      - type: bind
+        source: ./.packages
+        target: /data/packages
+      - type: bind
+        source: ./.auth
+        target: /data/auth
+        read_only: true
+    command: -P /data/auth/.htpasswd -a update,download,list /data/packages
+    ports:
+      - "80:8080"
