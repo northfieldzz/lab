@@ -5,13 +5,12 @@ services:
     image: tensorflow/tensorflow:latest-gpu-jupyter
     volumes:
       - type: bind
-        source: `pwd`/notebooks
+        source: ./notebooks
         target: /tf
     ports:
-      - "8888:8888"
+      - "50001:8888"
     restart: on-failure
-# GPU使用時
 #    runtime: nvidia
-#    environment:
-#      - NVIDIA_VISIBLE_DEVICES=all
-#      - NVIDIA_DRIVER_CAPABILITIES=all
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
