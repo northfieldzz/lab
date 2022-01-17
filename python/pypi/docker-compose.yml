@@ -1,16 +1,16 @@
 version: "3.8"
+volumes:
+  packages:
+    driver: local
 services:
   pypiserver:
     container_name: pypiserver
     image: pypiserver/pypiserver:latest
     volumes:
-      - type: bind
-        source: ./.packages
+      - type: volume
+        source: packages
         target: /data/packages
-      - type: bind
-        source: ./.auth
-        target: /data/auth
-        read_only: true
-    command: -P /data/auth/.htpasswd -a update,download,list /data/packages
+    command: -P . -a . /data/packages
     ports:
-      - "80:8080"
+      - "50000:8080"
+    restart: on-failure
