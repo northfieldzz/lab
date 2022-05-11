@@ -1,21 +1,22 @@
 version: "3.8"
 services:
   jupyter:
-    container_name: tensorflow-jupyter
-    image: tensorflow/tensorflow:latest-gpu-jupyter
+    container_name: nnabla-jupyter
+    build: .
     volumes:
       - type: bind
         source: ./notebooks
-        target: /tf
+        target: /working
     ports:
-      - "50001:8888"
+      - "50002:8888"
     restart: on-failure
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              capabilities: [gpu]
+              capabilities: [ gpu ]
+    entrypoint: jupyter notebook --ip=0.0.0.0 --allow-root --NotebookApp.token=nnabla
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
